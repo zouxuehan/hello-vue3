@@ -7,9 +7,10 @@ import banner from 'vite-plugin-banner'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { envDir, sourceDir, manualChunks } from './scripts/build'
 import pkg from './package.json'
+import { viteMockServe } from 'vite-plugin-mock'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, envDir)
 
   return {
@@ -220,6 +221,10 @@ export default defineConfig(({ mode }) => {
           },
         },
       }),
+      viteMockServe({
+        mockPath: 'mock',
+        enable: command === 'serve'
+      })
     ],
   }
 })
